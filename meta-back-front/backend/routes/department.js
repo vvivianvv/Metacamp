@@ -16,12 +16,11 @@ router.post('/', async (req, res) => {
 
     // 입력값 null 체크
     if (!params.name) {
-      const err = new Error('Not allowed null (name)');
-      logger.error(err.toString());
-
-      res.status(500).json({ err: err.toString() });
+      // const err = new Error('Not allowed null (name)');
+      // logger.error(err.toString());
+      // res.status(500).json({ err: err.toString() });
+      throw new Error('Not allowed null (name)');
     }
-
     // 비즈니스 로직 호출
     const result = await departmentService.reg(params);
     logger.info(`(department.reg.result) ${JSON.stringify(result)}`);
@@ -29,6 +28,7 @@ router.post('/', async (req, res) => {
     // 최종 응답
     res.status(200).json(result);
   } catch (err) {
+    logger.error(err.toString());
     res.status(500).json({ err: err.toString() });
   }
 });
